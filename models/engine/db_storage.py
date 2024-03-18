@@ -76,6 +76,7 @@ class DBStorage:
         self.__session.remove()
 
     def get(self, cls, id):
+        """get object from class"""
         if cls in classes.values():
             objects = self.all(cls)
             for obj in objects:
@@ -84,6 +85,7 @@ class DBStorage:
         return None
 
     def count(self, cls=None):
+        """count number of objects"""
         objects = []
         if cls is not None:
             objects = self.all(cls)
