@@ -1,4 +1,7 @@
 #!/usr/bin/python3
+"""package module for app views"""
+
+
 from flask import Blueprint
 
 
