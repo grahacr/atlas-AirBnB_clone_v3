@@ -1,4 +1,4 @@
-#/usr/bin/python3
+#!/usr/bin/python3
 """New module for application"""
 from flask import Flask, Blueprint
 from models import storage
