@@ -8,4 +8,4 @@ from api.v1.views import app_views
 def index():
     """return status"""
     response = {"status": "OK"}
-    return jsonify(response)
+    return response
