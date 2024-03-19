@@ -11,6 +11,7 @@ def index():
     response = {"status": "OK"}
     return response
 
+
 @app_views.route('/stats', strict_slashes=False)
 def stats():
     objects_count = {}
