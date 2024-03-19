@@ -33,9 +33,9 @@ def del_state(state_id):
 def post_state():
     data = request.get_json()
     if not data:
-        abort(400)
+	abort(400)
     if 'name' not in data:
-        abort(400)
+	abort(400)
     new_state = State(**data)
     storage.new(new_state)
     storage.save()
