@@ -29,7 +29,7 @@ def del_state(state_id):
         storage.save()
         return jsonify({}), 200
 
-@app_views.route('/states/<state_id>', methods=['POST'])
+@app_views.route('/states/', methods=['POST'])
 def post_state():
     data = request.get_json()
     if not data:
