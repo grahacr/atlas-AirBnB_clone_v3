@@ -2,7 +2,7 @@
 """New module for application"""
 
 from api.v1.views import app_views
-from flask import Flask, Blueprint
+from flask import Flask
 from models import storage
 from os import getenv
 from flask import jsonify

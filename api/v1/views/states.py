@@ -1,34 +1,29 @@
 #!/usr/bin/python3
 """Handles all default RESTFul API actions"""
-from api.v1 import app
 from api.v1.views import app_views
-from flask import abort, jsonify, Blueprint, request
-from .models import State, BaseModel
+from flask import abort, jsonify, request
+from models.state import State
+from models import storage
 
-states_bp = Blueprint('states', __name__)
 
-
-@app.route('/api/v1/states', methods=['GET'])
+@app_views.route('/states', methods=['GET'])
 def get_all_states():
-    states = State.query.all()
+    states = storage.all(State)
     return jsonify([state.to_dict() for state in states])
 
-@app.route('/api/v1/states/<int:state_id>', methods=['GET'])
+@app_views.route('/states/<state_id>', methods=['GET'])
 def get_state(state_id):
-    state = State.query.get(state_id)
+    state = storage.get(State, state_id)
     if state is None:
         abort(404)
     return jsonify(state.to_dict())
 
-@app.route('/api/v1/states/<int:state_id>', method=['DELETE'])
+@app_views.route('/states/<state_id>', methods=['DELETE'])
 def del_state(state_id):
-    if request.method == 'DELETE':
-        states = State.query.all()
-        for state in states:
-            if state.id == state_id:
-                state.delete()
-                return jsonify({}), 200
+    state = storage.get(State, state_id)
+    if state is None:
         abort(404)
-@app.route('/api/v1/states', method=['POST'])
-def post_state():
-    
+    else:
+        storage.delete(state)
+        storage.save()
+        return jsonify({}), 200
