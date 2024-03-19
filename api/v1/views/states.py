@@ -41,3 +41,16 @@ def post_state():
     storage.save()
 
     return jsonify(new_state.to_dict()), 201	
+
+@app_views.route('/states/<state_id>', methods=['PUT'])
+def update_state(state_id):
+    state_data = storage.get(State, state_id)
+    if not state:
+        abort(404)
+    found_state = request.get_json(silent=True)
+    if not found_state:
+        abort(400)
+    for key, value in update_data.items():
+        setattr(state, key, value)
+    storage.save()
+    return jsonify(state.to_dict()), 200
