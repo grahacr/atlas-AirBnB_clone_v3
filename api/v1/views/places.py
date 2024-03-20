@@ -48,7 +48,7 @@ def post_place(city_id):
     if city is None:
         abort(404)
     if 'user_id' not in data:
-        abort(400, description="Missing user_id" )
+        abort(400, description="Missing user_id")
     new_place = Place(**data)
     setattr(new_place, "city_id", city_id)
     new_place.save()
