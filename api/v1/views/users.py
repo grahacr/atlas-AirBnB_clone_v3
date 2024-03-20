@@ -32,7 +32,7 @@ def del_user(user_id):
         return jsonify({}), 200
 
 
-@app_views.route('/users/', methods=['POST'], strict_slashes=False)
+@app_views.route('/users/', methods=['POST'])
 def post_user():
     data = request.get_json(silent=True)
     if not data:
