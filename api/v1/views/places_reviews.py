@@ -62,15 +62,15 @@ def post_review(place_id):
     return jsonify(new_review.to_dict()), 201
 
 
-@app_views.route('/places/<place_id>', methods=['PUT'], strict_slashes=False)
-def update_place(place_id):
-    place_data = storage.get(Place, place_id)
-    if not place_data:
+@app_views.route('/reviews/<review_id>', methods=['PUT'], strict_slashes=False)
+def update_review(review_id):
+    review_data = storage.get(Review, review_id)
+    if not review_data:
         abort(404)
-    found_place = request.get_json(silent=True)
-    if not found_place:
+    found_review = request.get_json(silent=True)
+    if not found_review:
         abort(400)
-    for key, value in found_place.items():
-        setattr(place_data, key, value)
+    for key, value in found_review.items():
+        setattr(found_review, key, value)
     storage.save()
-    return jsonify(place_data.to_dict()), 200
+    return jsonify(review_data.to_dict()), 200
