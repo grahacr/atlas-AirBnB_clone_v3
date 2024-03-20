@@ -2,7 +2,7 @@
 """Handles all default RESTFul API actions"""
 from api.v1.views import app_views
 from flask import abort, jsonify, request
-from models.state import Amenity
+from models.amenity import Amenity
 from models import storage
 
 
