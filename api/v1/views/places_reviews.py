@@ -4,7 +4,6 @@ from api.v1.views import app_views
 from flask import abort, jsonify, request
 from models.place import Place
 from models.user import User
-from models.city import City
 from models.review import Review
 from models import storage
 
@@ -43,21 +42,20 @@ def del_review(review_id):
                  strict_slashes=False)
 def post_review(place_id):
     place = storage.get(Place, place_id)
+    if place is None:
+        abort(404)
     data = request.get_json(silent=True)
     if data is None:
         abort(400)
-    review = storage.get(Review, data.get('place_id'))
     if 'text' not in data:
         abort(400, description="Missing text")
-    if place is None:
-        abort(404)
-    user = storage.get(User, data.get('user_id'))
     if 'user_id' not in data:
         abort(400, description="Missing user_id")
+    user = storage.get(User, data['user_id'])
     if not user:
         abort(404)
+    data['place_id'] = place_id
     new_review = Review(**data)
-    setattr(new_review, "place_id", place_id)
     new_review.save()
     return jsonify(new_review.to_dict()), 201
 
