@@ -2,7 +2,8 @@
 """Handles all default RESTFul API actions"""
 from api.v1.views import app_views
 from flask import abort, jsonify, request
-from models.state import State, City
+from models.city import City
+from models.state import State
 from models import storage
 
 
@@ -35,18 +36,18 @@ def del_city(city_id):
         return jsonify({}), 200
 
 
-@app_views.route('/states/<state_id>/cities', methods=['POST'])
+@app_views.route('/states/<state_id>/cities', methods=['POST'],
+                 strict_slashes=False)
 def post_city(state_id):
+    state = storage.get(State, state_id)
     data = request.get_json(silent=True)
     if not data:
         abort(400, description="Not a JSON")
     if 'name' not in data:
         abort(400, description="Missing name")
-    state = storage.get(State, state_id)
     if state is None:
         abort(404)
     new_city = City(**data)
-    new_city.state_id = state_id
-    storage.new(new_city)
-    storage.save()
+    setattr(new_city, "state_id", state_id)
+    new_city.save()
     return jsonify(new_city.to_dict()), 201
