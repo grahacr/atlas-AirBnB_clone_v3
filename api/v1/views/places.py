@@ -7,13 +7,13 @@ from models.city import City
 from models import storage
 
 
-@app_views.route('/cities/<city_id>/places', method="GET")
+@app_views.route('/cities/<city_id>/places', method="GET", strict_slashes=False)
 def get_all_places(city_id):
     data = storage.get(City, city_id)
     if data is None:
         abort(404)
     places = storage.all(Place)
-    return jsonify([place.to_dict() for place in places])
+    return jsonify([place.to_dict() for place in data.places])
 
 
 @app_views.route('/places/<place_id>', methods=['GET'], strict_slashes=False)
@@ -37,7 +37,7 @@ def del_place(place_id):
 
 
 @app_views.route('/cities/<city_id>/places/', methods=['POST'])
-def input_place(city_id, place_id, user_id):
+def input_place(city_id):
     data = storage.get(City, city_id)
     if data is None:
         abort(404)
