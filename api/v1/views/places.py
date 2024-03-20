@@ -41,8 +41,8 @@ def del_place(place_id):
                  strict_slashes=False)
 def post_place(city_id):
     city = storage.get(City, city_id)
-    user = storage.get(User, https(user_id))
     data = request.get_json(silent=True)
+    user = storage.get(User, data.get('user_id')
     if not data:
         abort(400, description="Not a JSON")
     if 'name' not in data:
