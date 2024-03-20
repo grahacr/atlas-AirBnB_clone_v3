@@ -2,7 +2,8 @@
 """New module for application"""
 
 from api.v1.views import app_views
-from flask import CORS, Flask, jsonify
+from flask import Flask, jsonify
+from flask_cors import CORS
 from models import storage
 from os import getenv
 
