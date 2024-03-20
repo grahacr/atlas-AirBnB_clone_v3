@@ -7,7 +7,8 @@ from models.state import State
 from models import storage
 
 
-@app_views.route('/states/<state_id>/cities', methods=['GET'], strict_slashes=False)
+@app_views.route('/states/<state_id>/cities', methods=['GET'],
+                 strict_slashes=False)
 def get_cities(state_id):
     state = storage.get(State, state_id)
     if not state:
@@ -15,6 +16,7 @@ def get_cities(state_id):
     else:
         cities = state.cities
         return jsonify([city.to_dict() for city in cities])
+
 
 @app_views.route('/cities/<city_id>', methods=['GET'], strict_slashes=False)
 def get_city(city_id):
@@ -51,6 +53,7 @@ def post_city(state_id):
     setattr(new_city, "state_id", state_id)
     new_city.save()
     return jsonify(new_city.to_dict()), 201
+
 
 @app_views.route('/cities/<city_id>', methods=['PUT'],
                  strict_slashes=False)
