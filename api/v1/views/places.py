@@ -8,7 +8,8 @@ from models.city import City
 from models import storage
 
 
-@app_views.route('/cities/<city_id>/places', methods=["GET"], strict_slashes=False)
+@app_views.route(
+    '/cities/<city_id>/places', methods=["GET"], strict_slashes=False)
 def get_all_places(city_id):
     data = storage.get(City, city_id)
     if data is None:
@@ -71,4 +72,3 @@ def update_place(place_id):
         setattr(place_data, key, value)
     storage.save()
     return jsonify(place_data.to_dict()), 200
-
