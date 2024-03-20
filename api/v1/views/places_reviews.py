@@ -15,7 +15,7 @@ def get_reviews(place_id):
     place = storage.get(Place, place_id)
     if place is None:
         abort(404)
-    reviews = storage.all(Review)
+    reviews = storage.all(Review).values()
     return jsonify([review.to_dict() for review in place.reviews])
 
 
