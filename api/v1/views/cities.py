@@ -51,3 +51,17 @@ def post_city(state_id):
     setattr(new_city, "state_id", state_id)
     new_city.save()
     return jsonify(new_city.to_dict()), 201
+
+@app_views.route('/cities/<city_id>', methods=['PUT'],
+                 strict_slashes=False)
+def update_city(city_id):
+    city_data = storage.get(City, city_id)
+    if not city_data:
+        abort(404)
+    found_city = request.get_json(silent=True)
+    if not found_city:
+        abort(400)
+    for key, value in found_city.items():
+        setattr(city_data, key, value)
+    storage.save()
+    return jsonify(city_data.to_dict()), 200
