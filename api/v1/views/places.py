@@ -7,7 +7,7 @@ from models.city import City
 from models import storage
 
 
-@app_views.route('/cities/<city_id>/places', method="GET", strict_slashes=False)
+@app_views.route('/cities/<city_id>/places', methods=["GET"], strict_slashes=False)
 def get_all_places(city_id):
     data = storage.get(City, city_id)
     if data is None:
@@ -36,27 +36,22 @@ def del_place(place_id):
         return jsonify({}), 200
 
 
-@app_views.route('/cities/<city_id>/places/', methods=['POST'])
-def input_place(city_id):
-    data = storage.get(City, city_id)
-    if data is None:
+@app_views.route('/cities/<city_id>/places', methods=['POST'],
+                 strict_slashes=False)
+def post_place(city_id):
+    city = storage.get(City, city_id)
+    data = request.get_json(silent=True)
+    if not data:
+        abort(400, description="Not a JSON")
+    if 'name' not in data:
+        abort(400, description="Missing name")
+    if city is None:
         abort(404)
-    place_data = request.get_json(silent=True)
-    if not place_data:
-        abort(400)
-    if 'name' not in place_data:
-        abort(400)
-    if 'user_id' not in place_data:
-        abort(400)
-    if user_id is None:
-        abort(0)
-    place = storage.get(Place, place_id)
-    if place is None:
-        abort(404)
-    new_place = Place(**place_data)
-    storage.new(new_place)
-    storage.save()
-
+    if 'user_id' not in data:
+        abort(400, description="Missing user_id" )
+    new_place = Place(**data)
+    setattr(new_place, "city_id", city_id)
+    new_place.save()
     return jsonify(new_place.to_dict()), 201
 
 
