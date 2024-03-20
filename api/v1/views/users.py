@@ -34,12 +34,12 @@ def del_user(user_id):
 
 @app_views.route('/users/', methods=['POST'])
 def post_user():
-    data = request.get_json(silent=True)
-    if not data:
+    user_data = request.get_json(silent=True)
+    if not user_data:
         abort(400)
-    if 'name' not in data:
+    if 'name' not in user_data:
         abort(400)
-    new_user = User(**data)
+    new_user = User(**user_data)
     storage.new(new_user)
     storage.save()
 
