@@ -44,7 +44,7 @@ def post_place(city_id):
     data = request.get_json(silent=True)
     user = storage.get(User, data.get('user_id')
     if data is None:
-        abort(400, description="Not a JSON")
+        abort(400)
     if 'name' not in data:
         abort(400, description="Missing name")
     if city is None:
