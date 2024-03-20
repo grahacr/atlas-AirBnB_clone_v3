@@ -74,7 +74,7 @@ class FileStorage:
         if cls in classes.values():
             objects = self.all(cls)
             for obj in objects.values():
-                if obj.id == id:
+                if getattr(obj, 'id') == id:
                     return obj
         return None
 
