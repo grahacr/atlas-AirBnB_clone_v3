@@ -39,9 +39,9 @@ def del_city(city_id):
 def post_city(state_id):
     data = request.get_json(silent=True)
     if not data:
-        abort(400)
+        abort(400, description="Not a JSON")
     if 'name' not in data:
-        abort(400)
+        abort(400, description="Missing name")
     state = storage.get(State, state_id)
     if state is None:
         abort(404)
