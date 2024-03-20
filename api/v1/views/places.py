@@ -2,7 +2,7 @@
 """This module handles api actions for Place objects"""
 from api.v1.views import app_views
 from flask import abort, jsonify, request
-from models.places import Place
+from models.place import Place
 from models.city import City
 from models import storage
 
