@@ -63,11 +63,11 @@ def post_review(place_id):
 @app_views.route('/reviews/<review_id>', methods=['PUT'], strict_slashes=False)
 def update_review(review_id):
     found_review = request.get_json(silent=True)
+    if not found_review:
+        abort(400)
     review_data = storage.get(Review, review_id)
     if not review_data:
         abort(404)
-    if not found_review:
-        abort(400)
     for key, value in found_review.items():
         if key not in [
             "id", "user_id", "place_id", "created_at", "updated_at"]:
