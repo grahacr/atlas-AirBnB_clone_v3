@@ -51,14 +51,15 @@ def post_review(place_id):
         abort(400, description="Missing text")
     if place is None:
         abort(404)
+    user = storage.get(User, data.get('user_id'))
     if 'user_id' not in data:
         abort(400, description="Missing user_id")
     if not user:
         abort(404)
-    new_place = Place(**data)
-    setattr(new_place, "city_id", city_id)
-    new_place.save()
-    return jsonify(new_place.to_dict()), 201
+    new_review = Review(**data)
+    setattr(new_review, "place_id", place_id)
+    new_review.save()
+    return jsonify(new_review.to_dict()), 201
 
 
 @app_views.route('/places/<place_id>', methods=['PUT'], strict_slashes=False)
