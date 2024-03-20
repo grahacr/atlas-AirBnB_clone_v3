@@ -7,7 +7,7 @@ from models.city import City
 from models import storage
 
 
-@app_views('/cities/<city_id>/places', method="GET")
+@app_views.route('/cities/<city_id>/places', method="GET")
 def get_all_places(city_id):
     data = storage.get(City, city_id)
     if data is None:
