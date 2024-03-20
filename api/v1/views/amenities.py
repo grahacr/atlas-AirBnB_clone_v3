@@ -51,7 +51,7 @@ def post_amenity():
                  strict_slashes=False)
 def update_amenity(amenity_id):
     amenity_data = storage.get(Amenity, amenity_id)
-    if not amenity_id:
+    if not amenity_data:
         abort(404)
     found_amenity = request.get_json(silent=True)
     if not found_amenity:
