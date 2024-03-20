@@ -69,6 +69,8 @@ def update_review(review_id):
     if not found_review:
         abort(400)
     for key, value in found_review.items():
-        setattr(found_review, key, value)
+        if key not in [
+            "id", "user_id", "place_id", "created_at", "updated_at"]:
+            setattr(found_review, key, value)
     review_data.save()
     return jsonify(review_data.to_dict()), 200
