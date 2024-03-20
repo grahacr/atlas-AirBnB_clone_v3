@@ -13,7 +13,7 @@ def get_all_users():
 
 
 @app_views.route('/users/<user_id>', methods=['GET'], strict_slashes=False)
-def get_state(user_id):
+def get_user(user_id):
     user = storage.get(User, user_id)
     if user is None:
         abort(404)
@@ -33,7 +33,7 @@ def del_user(user_id):
 
 
 @app_views.route('/users/', methods=['POST'], strict_slashes=False)
-def post_state():
+def post_user():
     data = request.get_json(silent=True)
     if not data:
         abort(400)
@@ -47,7 +47,7 @@ def post_state():
 
 
 @app_views.route('/users/<user_id>', methods=['PUT'], strict_slashes=False)
-def update_state(user_id):
+def update_user(user_id):
     user_data = storage.get(User, user_id)
     if not user_data:
         abort(404)
