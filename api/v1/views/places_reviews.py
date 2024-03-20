@@ -62,13 +62,13 @@ def post_review(place_id):
 
 @app_views.route('/reviews/<review_id>', methods=['PUT'], strict_slashes=False)
 def update_review(review_id):
+    found_review = request.get_json(silent=True)
     review_data = storage.get(Review, review_id)
     if not review_data:
         abort(404)
-    found_review = request.get_json(silent=True)
     if not found_review:
         abort(400)
     for key, value in found_review.items():
         setattr(found_review, key, value)
-    storage.save()
+    review_data.save()
     return jsonify(review_data.to_dict()), 200
